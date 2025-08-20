@@ -98,7 +98,7 @@ func (j simpleUserToken) Set(req *http.Request) error {
 	return nil
 }
 
-func GetSimpleUserIdentity(authorization, secret string) (SimpleUserIdentity, error) {
+func GetUserIdentity(authorization, secret string) (SimpleUserIdentity, error) {
 	claims, err := parseToken(authorization, secret)
 	if err != nil {
 		return nil, err

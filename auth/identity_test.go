@@ -26,13 +26,13 @@ var claimsTest = jwt.MapClaims{
 }
 
 func TestValidToken(t *testing.T) {
-	user, err := GetSimpleUserIdentity(jwtTest, secretTest)
+	user, err := GetUserIdentity(jwtTest, secretTest)
 	require.NoError(t, err)
 	assert.Equal(t, "Johnny", user.FirstName())
 }
 
 func TestInvalidToken(t *testing.T) {
-	_, err := GetSimpleUserIdentity(jwtInvalid, secretTest)
+	_, err := GetUserIdentity(jwtInvalid, secretTest)
 	assert.EqualError(t, jwt.ErrSignatureInvalid, err.Error())
 }
 

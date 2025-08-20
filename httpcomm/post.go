@@ -10,7 +10,7 @@ import (
 	"github.com/dchaykin/mygolib/log"
 )
 
-func Post(endpoint string, identity auth.UserIdentity, headers map[string]string, payload []byte) (httpResult HTTPResult) {
+func Post(endpoint string, identity auth.SimpleUserIdentity, headers map[string]string, payload []byte) (httpResult HTTPResult) {
 	if payload == nil {
 		payload = []byte{}
 	}
@@ -18,11 +18,11 @@ func Post(endpoint string, identity auth.UserIdentity, headers map[string]string
 	return post(endpoint, false, identity, headers, bytes.NewBuffer(payload))
 }
 
-func PostBuffer(endpoint string, identity auth.UserIdentity, headers map[string]string, body *bytes.Buffer) (httpResult HTTPResult) {
+func PostBuffer(endpoint string, identity auth.SimpleUserIdentity, headers map[string]string, body *bytes.Buffer) (httpResult HTTPResult) {
 	return post(endpoint, false, identity, headers, body)
 }
 
-func post(endpoint string, insecure bool, identity auth.UserIdentity, headers map[string]string, body *bytes.Buffer) (httpResult HTTPResult) {
+func post(endpoint string, insecure bool, identity auth.SimpleUserIdentity, headers map[string]string, body *bytes.Buffer) (httpResult HTTPResult) {
 	req, err := http.NewRequest("POST", endpoint, body)
 	if err != nil {
 		return HTTPResult{err: err}

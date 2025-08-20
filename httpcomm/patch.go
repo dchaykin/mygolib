@@ -9,7 +9,7 @@ import (
 	"github.com/dchaykin/mygolib/log"
 )
 
-func Patch(endpoint string, identity auth.UserIdentity, parameters map[string]string, headers map[string]string, data ...string) (httpResult HTTPResult) {
+func Patch(endpoint string, identity auth.SimpleUserIdentity, parameters map[string]string, headers map[string]string, data ...string) (httpResult HTTPResult) {
 	payload := getPayloadFromSlice(data...)
 
 	log.Debug("/PATCH %s [ %s ]", endpoint, payload)

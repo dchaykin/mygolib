@@ -43,11 +43,11 @@ func (hr *HTTPResult) GetURL() string {
 	return fmt.Sprintf("%s://%s%s", u.Scheme, u.Host, u.Path)
 }
 
-func Get(url string, identity auth.UserIdentity, parameters map[string]string, headers map[string]string) (httpResult HTTPResult) {
+func Get(url string, identity auth.SimpleUserIdentity, parameters map[string]string, headers map[string]string) (httpResult HTTPResult) {
 	return get(url, identity, parameters, headers, false)
 }
 
-func get(url string, identity auth.UserIdentity, parameters map[string]string, headers map[string]string, insecure bool) (httpResult HTTPResult) {
+func get(url string, identity auth.SimpleUserIdentity, parameters map[string]string, headers map[string]string, insecure bool) (httpResult HTTPResult) {
 	log.Debug("/GET %s", url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

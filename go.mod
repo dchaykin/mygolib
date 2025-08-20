@@ -1,4 +1,4 @@
-module inquiry/mygolib
+module githbu.com/dchaykin/mygolib
 
 go 1.23.0
 

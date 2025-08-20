@@ -1,8 +1,6 @@
 module github.com/dchaykin/mygolib
 
-go 1.23.0
-
-toolchain go1.24.6
+go 1.24.6
 
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.2

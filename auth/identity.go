@@ -20,11 +20,11 @@ type SimpleUserIdentity interface {
 	Set(req *http.Request) error
 }
 
-type simpleUserToken struct {
+type UserClaims struct {
 	Claims jwt.MapClaims `json:"claims"`
 }
 
-func (j simpleUserToken) FirstName() string {
+func (j UserClaims) FirstName() string {
 	claim, ok := j.Claims["firstName"]
 	if !ok {
 		log.Warn("Claim 'firstName' not found")
@@ -33,7 +33,7 @@ func (j simpleUserToken) FirstName() string {
 	return claim.(string)
 }
 
-func (j simpleUserToken) IsAdmin() bool {
+func (j UserClaims) IsAdmin() bool {
 	claim, ok := j.Claims["admin"]
 	if !ok {
 		return false
@@ -41,7 +41,7 @@ func (j simpleUserToken) IsAdmin() bool {
 	return claim.(bool)
 }
 
-func (j simpleUserToken) IsDeveloper() bool {
+func (j UserClaims) IsDeveloper() bool {
 	if j.Username() == "dchaykin" { // TODO
 		return true
 	}
@@ -52,7 +52,7 @@ func (j simpleUserToken) IsDeveloper() bool {
 	return claim.(bool)
 }
 
-func (j simpleUserToken) SurName() string {
+func (j UserClaims) SurName() string {
 	claim, ok := j.Claims["surName"]
 	if !ok {
 		log.Warn("Claim 'surName' not found")
@@ -61,7 +61,7 @@ func (j simpleUserToken) SurName() string {
 	return claim.(string)
 }
 
-func (j simpleUserToken) Email() string {
+func (j UserClaims) Email() string {
 	claim, ok := j.Claims["eMail"]
 	if !ok {
 		log.Warn("Claim 'eMail' not found")
@@ -70,7 +70,7 @@ func (j simpleUserToken) Email() string {
 	return claim.(string)
 }
 
-func (j simpleUserToken) Username() string {
+func (j UserClaims) Username() string {
 	claim, ok := j.Claims["userName"]
 	if !ok {
 		log.Warn("Claim 'userName' not found")
@@ -84,12 +84,12 @@ func GetSimpleUserIdentityFromRequest(r http.Request) (SimpleUserIdentity, error
 	if userInfo == "" {
 		return nil, fmt.Errorf("no user info in the request found")
 	}
-	ui := simpleUserToken{}
+	ui := UserClaims{}
 	err := json.Unmarshal([]byte(userInfo), &ui)
 	return ui, err
 }
 
-func (j simpleUserToken) Set(req *http.Request) error {
+func (j UserClaims) Set(req *http.Request) error {
 	authorization, err := CreateAuthorizationToken(j.Claims, os.Getenv("AUTH_SECRET"))
 	if err != nil {
 		return err
@@ -103,7 +103,7 @@ func GetUserIdentity(authorization, secret string) (SimpleUserIdentity, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &simpleUserToken{
+	return &UserClaims{
 		Claims: claims,
 	}, nil
 }

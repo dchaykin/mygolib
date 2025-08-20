@@ -1,4 +1,4 @@
-module githbu.com/dchaykin/mygolib
+module github.com/dchaykin/mygolib
 
 go 1.23.0
 
